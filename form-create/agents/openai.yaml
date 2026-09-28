@@ -1,0 +1,4 @@
+interface:
+  display_name: "Form create"
+  short_description: "Создание анкет для продуктовых исследований"
+  default_prompt: "Используй $form-create, чтобы создать количественную анкету для продуктового исследования."

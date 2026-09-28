@@ -1,0 +1,4 @@
+interface:
+  display_name: "Freelance Response"
+  short_description: "Персональные отклики с подбором кейсов"
+  default_prompt: "Используй $freelance-response, чтобы разобрать проект и написать персональный отклик с подходящим кейсом из моего портфолио."

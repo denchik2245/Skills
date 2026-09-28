@@ -1,0 +1,4 @@
+interface:
+  display_name: "Form Analysis"
+  short_description: "Анализ результатов количественных опросов"
+  default_prompt: "Используй $form-analysis, чтобы проанализировать результаты опроса и проверить гипотезы."

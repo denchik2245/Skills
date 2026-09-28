@@ -1,0 +1,4 @@
+interface:
+  display_name: "Interview Analysis"
+  short_description: "Анализ интервью и юзабилити-тестов"
+  default_prompt: "Используй $interview-analysis, чтобы свести и проанализировать результаты интервью."
