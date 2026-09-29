@@ -1,7 +1,8 @@
 # Лендинг хоккейного мероприятия
 
 - ID: `hockey-event-tilda`
-- Публичная работа: https://kwork.ru/portfolio/22543152
+- Публичная работа Kwork: https://kwork.ru/portfolio/22543152
+- Публичная работа FL.ru: https://www.fl.ru/user/flarich2281337/portfolio/8045752/
 - Тип: лендинг мероприятия
 - Год в презентации: 2026
 - Платформа: Tilda

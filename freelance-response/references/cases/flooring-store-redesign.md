@@ -1,7 +1,8 @@
 # Интернет-магазин напольных покрытий Parquet Deco
 
 - ID: `flooring-store-redesign`
-- Публичная работа: https://kwork.ru/portfolio/22521464
+- Публичная работа Kwork: https://kwork.ru/portfolio/22521464
+- Публичная работа FL.ru: https://www.fl.ru/user/flarich2281337/portfolio/7995837/
 - Сайт, указанный в кейсе: `parquetdeco.ru`
 - Тип: интернет-магазин
 - Год в презентации: 2025

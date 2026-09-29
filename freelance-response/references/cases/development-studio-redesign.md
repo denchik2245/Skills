@@ -3,7 +3,8 @@
 ## Паспорт кейса
 
 - ID: `development-studio-redesign`
-- Публичная работа: https://kwork.ru/portfolio/22521201
+- Публичная работа Kwork: https://kwork.ru/portfolio/22521201
+- Публичная работа FL.ru: https://www.fl.ru/user/flarich2281337/portfolio/8045668/
 - Сайт из кейса: `normdev.ru`
 - Год в презентации: 2026
 - Тип: редизайн многостраничного сайта digital-студии

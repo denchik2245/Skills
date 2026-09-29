@@ -1,7 +1,8 @@
 # Корпоративный сайт «Технологии Ремонта Пути»
 
 - ID: `railway-service-corporate`
-- Публичная работа: https://kwork.ru/portfolio/22777121
+- Публичная работа Kwork: https://kwork.ru/portfolio/22777121
+- Публичная работа FL.ru: https://www.fl.ru/user/flarich2281337/portfolio/8050876/
 - Сайт, указанный в кейсе: `alts-ural.ru`
 - Тип: корпоративный B2B-сайт с каталогом оборудования
 - Год в презентации: 2025

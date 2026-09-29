@@ -1,7 +1,8 @@
 # Курсы первой помощи
 
 - ID: `first-aid-courses-tilda`
-- Публичная работа: https://kwork.ru/portfolio/22543132
+- Публичная работа Kwork: https://kwork.ru/portfolio/22543132
+- Публичная работа FL.ru: https://www.fl.ru/user/flarich2281337/portfolio/8045755/
 - Тип: лендинг образовательной программы
 - Год в презентации: 2026
 - Платформа: Tilda

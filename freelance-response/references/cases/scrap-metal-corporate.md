@@ -3,7 +3,8 @@
 ## Паспорт кейса
 
 - ID: `scrap-metal-corporate`
-- Публичная работа: https://kwork.ru/portfolio/22521243
+- Публичная работа Kwork: https://kwork.ru/portfolio/22521243
+- Публичная работа FL.ru: https://www.fl.ru/user/flarich2281337/portfolio/7995836/
 - Сайт из кейса: `vn-metallgrupp.ru`
 - Год в презентации: 2025
 - Тип: многостраничный корпоративный сайт с нуля

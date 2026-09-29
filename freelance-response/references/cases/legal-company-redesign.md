@@ -3,7 +3,8 @@
 ## Паспорт кейса
 
 - ID: `legal-company-redesign`
-- Публичная работа: https://kwork.ru/portfolio/22521335
+- Публичная работа Kwork: https://kwork.ru/portfolio/22521335
+- Публичная работа FL.ru: https://www.fl.ru/user/flarich2281337/portfolio/8045674/
 - Сайт из кейса: `kuzin-partners.ru`
 - Год в презентации: 2026
 - Тип: редизайн многостраничного сайта юридической компании

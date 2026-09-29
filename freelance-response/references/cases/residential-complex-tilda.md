@@ -1,7 +1,8 @@
 # Лендинг жилого комплекса Flabellum
 
 - ID: `residential-complex-tilda`
-- Публичная работа: https://kwork.ru/portfolio/22543136
+- Публичная работа Kwork: https://kwork.ru/portfolio/22543136
+- Публичная работа FL.ru: https://www.fl.ru/user/flarich2281337/portfolio/8045701/
 - Тип: лендинг жилого комплекса
 - Год в презентации: 2026
 - Платформа: Tilda с кастомным кодом

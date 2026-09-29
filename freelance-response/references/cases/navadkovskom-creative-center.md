@@ -1,7 +1,8 @@
 # Центр творчества «На Вадковском»
 
 - ID: `navadkovskom-creative-center`
-- Публичная работа: https://kwork.ru/portfolio/22777147
+- Публичная работа Kwork: https://kwork.ru/portfolio/22777147
+- Публичная работа FL.ru: https://www.fl.ru/user/flarich2281337/portfolio/8050877/
 - Сайт, указанный в кейсе: `navadkovscom.ru`
 - Тип: многостраничный сайт центра творчества
 - Год в презентации: 2025

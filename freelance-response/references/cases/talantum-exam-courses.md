@@ -1,7 +1,8 @@
 # Курсы ЕГЭ и ОГЭ — «Центр Талантум»
 
 - ID: `talantum-exam-courses`
-- Публичная работа: https://kwork.ru/portfolio/23689492
+- Публичная работа Kwork: https://kwork.ru/portfolio/23689492
+- Публичная работа FL.ru: https://www.fl.ru/user/flarich2281337/portfolio/8075110/
 - Сайт, указанный в кейсе: `talantum.ru`
 - Тип: многостраничный образовательный сайт
 - Год в презентации: 2026
