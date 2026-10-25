@@ -13,6 +13,19 @@ const CC = { horizontal: 'CENTER', vertical: 'MIN' };
 
 async function fillS(n, k) { await n.setFillStyleIdAsync(PS[k].id); }
 
+// Неразрывные пробелы: короткие предлоги, союзы и частицы переносятся вместе со следующим словом,
+// тире не уходит в начало строки, число не отрывается от единицы. Переводы строк не трогает.
+const NB_WORDS = 'в|во|на|и|с|со|к|ко|у|о|об|обо|по|за|из|от|до|не|ни|а|но|да|же|ли|бы|для|без|при|под|над|про|что|или|как|из-за|из-под';
+const NB_RE = new RegExp('(^|[\\s(«"„—-])(' + NB_WORDS + ')[ \\t]+', 'gi');
+function nb(s) {
+  if (typeof s !== 'string') return s;
+  let prev;
+  do { prev = s; s = s.replace(NB_RE, (m, a, w) => a + w + ' '); } while (s !== prev);
+  s = s.replace(/[ \t]+—/g, ' —');
+  s = s.replace(/(\d)[ \t]+(?=[A-Za-zА-Яа-яЁё%₽€$])/g, '$1 ');
+  return s;
+}
+
 // Прямоугольник / эллипс. o: {ellipse, radius, fill(стиль) | img(hash) | paints, stroke(стиль), sw, opacity, c, name}
 async function R(p, x, y, w, h, o = {}) {
   const r = o.ellipse ? figma.createEllipse() : figma.createRectangle(); p.appendChild(r);
@@ -43,7 +56,7 @@ async function F(p, x, y, w, h, o = {}) {
 // Текст. w — целая ширина или 'auto' (замерить и округлить вверх). Высота = строки × интерлиньяж.
 async function T(p, x, y, w, str, style, color, o = {}) {
   const t = figma.createText(); p.appendChild(t);
-  await t.setTextStyleIdAsync(TS[style].id); t.characters = str; await fillS(t, color);
+  await t.setTextStyleIdAsync(TS[style].id); t.characters = o.raw ? str : nb(str); await fillS(t, color);
   if (o.align) t.textAlignHorizontal = o.align;
   if (w === 'auto') { t.textAutoResize = 'WIDTH_AND_HEIGHT'; const ww = Math.ceil(t.width); t.textAutoResize = 'HEIGHT'; t.resize(ww, t.height); }
   else { t.textAutoResize = 'HEIGHT'; t.resize(w, t.height); }
@@ -59,9 +72,9 @@ async function I(p, name, x, y, color, o = {}) { const i = ICONS[name].createIns
 async function swapIcon(inst, name, color) { const ic = inst.findOne(n => n.type === 'INSTANCE' && n.name === 'Icon'); ic.swapComponent(ICONS[name]); await recolor(ic, color); }
 
 // Свойства инстанса по имени без суффикса '#id'
-function prop(inst, map) { const d = inst.componentProperties; const u = {}; for (const [k, v] of Object.entries(map)) { const key = Object.keys(d).find(x => x.split('#')[0] === k); if (key) u[key] = v; } inst.setProperties(u); }
+function prop(inst, map) { const d = inst.componentProperties; const u = {}; for (const [k, v] of Object.entries(map)) { const key = Object.keys(d).find(x => x.split('#')[0] === k); if (key) u[key] = nb(v); } inst.setProperties(u); }
 // Привязать текстовые слои компонента к TEXT-свойствам: [[layerName, propName, default], ...]
-function textProps(c, list) { for (const [layer, pr, def] of list) { const k = c.addComponentProperty(pr, 'TEXT', def); c.findOne(n => n.name === layer).componentPropertyReferences = { characters: k }; } }
+function textProps(c, list) { for (const [layer, pr, def] of list) { const k = c.addComponentProperty(pr, 'TEXT', nb(def)); c.findOne(n => n.name === layer).componentPropertyReferences = { characters: k }; } }
 
 // Сдвинуть всё ниже секции на d и растянуть страницу (и соседние фреймы ниже, если переданы)
 function shiftBelow(pageFrame, section, d, extra = []) { if (!d) return; for (const k of pageFrame.children) if (k.y > section.y + 10) k.y += d; pageFrame.resize(pageFrame.width, pageFrame.height + d); for (const e of extra) e.y += d; }
