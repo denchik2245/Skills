@@ -1,0 +1,32 @@
+{
+  "before": "",
+  "after": "",
+  "controls": [
+    {
+      "html": "<div class=\"swiper-button-prev swiper-button-disabled\"></div>"
+    },
+    {
+      "html": "<div class=\"swiper-button-next\"></div>"
+    }
+  ],
+  "pagination": [
+    {
+      "html": "<div class=\"swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal\"><span class=\"swiper-pagination-bullet swiper-pagination-bullet-active\"></span><span class=\"swiper-pagination-bullet\"></span><span class=\"swiper-pagination-bullet\"></span><span class=\"swiper-pagination-bullet\"></span></div>",
+      "rect": {
+        "x": 0,
+        "y": -1069.6953125
+      }
+    },
+    {
+      "html": "<div class=\"swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal\"><span class=\"swiper-pagination-bullet swiper-pagination-bullet-active\"></span><span class=\"swiper-pagination-bullet\"></span><span class=\"swiper-pagination-bullet\"></span><span class=\"swiper-pagination-bullet\"></span><span class=\"swiper-pagination-bullet\"></span><span class=\"swiper-pagination-bullet\"></span><span class=\"swiper-pagination-bullet\"></span></div>",
+      "rect": {
+        "x": 144.078125,
+        "y": 1147.5625
+      }
+    }
+  ],
+  "viewport": [
+    1440,
+    900
+  ]
+}

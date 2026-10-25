@@ -1,0 +1,50 @@
+{
+  "menu": [
+    {
+      "expanded": null,
+      "role": "button",
+      "tabIndex": -1,
+      "tag": "svg"
+    }
+  ],
+  "snapshot": [
+    {
+      "ariaLabel": null,
+      "ariaLabelledby": null,
+      "labels": [],
+      "name": "name",
+      "placeholder": "Имя",
+      "type": "text"
+    },
+    {
+      "ariaLabel": null,
+      "ariaLabelledby": null,
+      "labels": [],
+      "name": "email",
+      "placeholder": "Email",
+      "type": "email"
+    },
+    {
+      "ariaLabel": null,
+      "ariaLabelledby": null,
+      "labels": [],
+      "name": "question",
+      "placeholder": "Опишите тему вопроса",
+      "type": "textarea"
+    },
+    {
+      "ariaLabel": null,
+      "ariaLabelledby": null,
+      "labels": [
+        ""
+      ],
+      "name": "consent",
+      "placeholder": "",
+      "type": "checkbox"
+    }
+  ],
+  "viewport": [
+    390,
+    844
+  ]
+}

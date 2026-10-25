@@ -1,0 +1,4 @@
+interface:
+  display_name: "Аудит сайта"
+  short_description: "Аудит UX, дизайна и конверсии с отчетом в Google Sheets"
+  default_prompt: "Используй $site-audit для аудита сайта по ссылке и создай отдельный отчет в Google Таблицах на основе моего шаблона."
