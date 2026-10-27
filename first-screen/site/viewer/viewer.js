@@ -13,12 +13,6 @@
   const frames = {};
   let current = null;
 
-  // Подвал и кнопка связи
-  const a = data.author || {};
-  $('authorName').textContent = a.name || '';
-  $('authorName').href = a.portfolio || a.telegram || '#';
-  $('authorRole').textContent = a.role || '';
-  if (a.telegram) $('contact').href = a.telegram; else $('contact').hidden = true;
   $('url').textContent = data.domain || data.title || '';
 
   // Вкладки
@@ -47,10 +41,19 @@
     return f;
   }
 
+  // Шапка подстраивается под ширину: сначала кнопки становятся иконками, потом вкладки уходят на вторую строку
+  function fitBar() {
+    bar.classList.remove('bar--compact', 'bar--stacked');
+    const over = () => tabs.scrollWidth > tabs.clientWidth + 1 || bar.scrollWidth > bar.clientWidth + 1;
+    if (over()) bar.classList.add('bar--compact');
+    if (over()) bar.classList.add('bar--stacked');
+  }
+
   // На широком экране — живой HTML в масштабе, на телефоне — готовый PNG
   function render() {
     const v = variants.find(x => x.id === current);
     if (!v) return;
+    fitBar();
     const f = frameFor(v);
     const h = v.height || 1080;
     $('size').textContent = W + ' × ' + h;

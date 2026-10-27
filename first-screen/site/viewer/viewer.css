@@ -30,17 +30,17 @@ svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width:
 /* Шапка */
 .bar {
   position: sticky; top: 0; z-index: 10;
-  display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 24px;
+  display: flex; align-items: center; gap: 24px;
   padding: 14px var(--gutter);
   background: rgba(14, 14, 16, .86);
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--line);
 }
-.bar__title { min-width: 0; }
+.bar__title { flex: 1 1 0; min-width: 160px; }
 .bar__eyebrow { display: block; font-size: 12px; color: var(--muted); letter-spacing: .02em; }
 .bar__name { margin: 0; font-size: 17px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.tabs { display: flex; gap: 4px; padding: 4px; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; overflow-x: auto; scrollbar-width: none; }
+.tabs { flex: 0 1 auto; min-width: 0; display: flex; gap: 4px; padding: 4px; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; overflow-x: auto; scrollbar-width: none; }
 .tabs::-webkit-scrollbar { display: none; }
 .tab {
   display: flex; align-items: center; gap: 8px; flex: none;
@@ -56,7 +56,13 @@ svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width:
 .tab[aria-selected="true"] .tab__key { background: var(--accent); color: var(--accent-text); }
 .tabs--single { display: none; }
 
-.actions { display: flex; justify-content: flex-end; gap: 8px; }
+.actions { flex: none; display: flex; justify-content: flex-end; gap: 8px; }
+
+/* Режимы шапки ставит viewer.js, когда всё не помещается в одну строку */
+.bar--compact .actions .btn { width: 40px; padding: 0; }
+.bar--compact .actions .btn span { display: none; }
+.bar--stacked { display: grid; grid-template-columns: minmax(0, 1fr) auto; row-gap: 12px; }
+.bar--stacked .tabs { grid-column: 1 / -1; grid-row: 2; justify-self: start; max-width: 100%; }
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   height: 40px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px;
@@ -102,19 +108,6 @@ svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width:
 .pager__btn:hover { background: var(--panel-2); }
 .pager__count { min-width: 48px; text-align: center; color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
 
-/* Подвал */
-.foot {
-  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 32px;
-  width: 100%; max-width: calc(1920px + var(--gutter) * 2); margin: 0 auto; padding: 28px var(--gutter) 40px;
-  border-top: 1px solid var(--line);
-}
-.foot__who { display: flex; flex-direction: column; }
-.foot__label { font-size: 12px; color: var(--muted); }
-.foot__name { font-size: 17px; font-weight: 600; text-decoration: none; }
-.foot__name:hover { text-decoration: underline; }
-.foot__role { font-size: 13px; color: var(--muted); }
-.foot__note { margin: 0; max-width: 560px; color: var(--muted); font-size: 13px; }
-
 .toast {
   position: fixed; left: 50%; bottom: 32px; z-index: 20; transform: translate(-50%, 16px);
   padding: 12px 20px; border-radius: 999px; background: var(--text); color: var(--bg); font-weight: 500;
@@ -122,13 +115,7 @@ svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width:
 }
 .toast--on { opacity: 1; transform: translate(-50%, 0); }
 
-/* Узкие экраны */
-@media (max-width: 1100px) {
-  .bar { grid-template-columns: minmax(0, 1fr) auto; }
-  .tabs { grid-column: 1 / -1; grid-row: 2; justify-self: start; max-width: 100%; }
-  .actions .btn span { display: none; }
-  .actions .btn { width: 40px; padding: 0; }
-}
+/* Телефон */
 @media (max-width: 760px) {
   :root { --gutter: 16px; }
   .bar { gap: 12px; }
@@ -138,6 +125,4 @@ svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width:
   .frame__chrome i { width: 8px; height: 8px; }
   .frame__size { display: none; }
   .caption { flex-direction: column; gap: 12px; }
-  .foot { grid-template-columns: 1fr; gap: 16px; }
-  .foot .btn { width: 100%; }
 }
