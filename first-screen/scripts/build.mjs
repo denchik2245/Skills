@@ -3,7 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { loadConfig, projectDir, readJson, writeJson, nb, typografHtml, withFit, syncSite, esc, SITE_TEMPLATE, die } from './lib.mjs';
+import { loadConfig, projectDir, readJson, writeJson, nb, typografHtml, syncSite, esc, SITE_TEMPLATE, die } from './lib.mjs';
 
 let chromium;
 try { ({ chromium } = await import('playwright')); }
@@ -33,15 +33,15 @@ meta.variants = files.map(f => {
 meta.title = nb(meta.title);
 meta.description = nb(meta.description || '');
 
-for (const v of meta.variants) {
-  const p = path.join(dir, v.file);
-  const src = fs.readFileSync(p, 'utf8');
-  const out = withFit(pageOnly ? src : typografHtml(src));
-  if (out !== src) fs.writeFileSync(p, out);
-}
-
 const report = [];
 if (!pageOnly) {
+  for (const v of meta.variants) {
+    const p = path.join(dir, v.file);
+    const src = fs.readFileSync(p, 'utf8');
+    const out = typografHtml(src);
+    if (out !== src) fs.writeFileSync(p, out);
+  }
+
   // headless shell ставится не всегда — тогда запускаем полный Chromium в headless-режиме
   const browser = await chromium.launch().catch(() => chromium.launch({ channel: 'chromium' }));
   try {

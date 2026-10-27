@@ -98,7 +98,6 @@
     $('count').textContent = (i + 1) + ' / ' + variants.length;
     $('download').href = v.png;
     $('download').setAttribute('download', (data.slug || 'concept') + '-' + v.id + '.png');
-    $('full').href = v.file;
     if (push && location.hash !== '#' + v.id) history.replaceState(null, '', '#' + v.id);
     render();
   }
