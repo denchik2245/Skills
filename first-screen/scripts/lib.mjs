@@ -52,6 +52,30 @@ export function typografHtml(html) {
   return parts.map((p, i) => (i % 2 ? p : nb(p))).join('');
 }
 
+// Вариант свёрстан на 1920. Этот блок масштабирует его под ширину окна (ноутбук, 2K-монитор),
+// как картинку: вёрстка не меняется, при 1920 (рендер, iframe просмотрщика) масштаб равен 1.
+const FIT_START = '<!-- first-screen:fit -->';
+const FIT_END = '<!-- /first-screen:fit -->';
+const FIT = `${FIT_START}
+<style>html.fs-fit { width: auto !important; overflow-x: hidden !important; }</style>
+<script>(function () {
+  var d = document.documentElement;
+  function fit() {
+    if (!document.body) return;
+    var w = d.clientWidth;
+    d.classList.toggle('fs-fit', w !== 1920);
+    document.body.style.zoom = w === 1920 ? '' : String(w / 1920);
+  }
+  document.addEventListener('DOMContentLoaded', fit);
+  window.addEventListener('resize', fit);
+})();</script>
+${FIT_END}`;
+export function withFit(html) {
+  const s = html.indexOf(FIT_START), e = html.indexOf(FIT_END);
+  if (s >= 0 && e > s) html = html.slice(0, s) + html.slice(e + FIT_END.length).replace(/^\n/, '');
+  return html.replace(/<\/head>/i, FIT + '\n</head>');
+}
+
 // Кладёт в репозиторий витрины актуальный просмотрщик, заглушку корня и служебные файлы
 export function syncSite(cfg) {
   fs.mkdirSync(path.join(cfg.siteDir, 'viewer'), { recursive: true });
