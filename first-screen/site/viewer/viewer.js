@@ -41,12 +41,10 @@
     return f;
   }
 
-  // Шапка подстраивается под ширину: сначала кнопки становятся иконками, потом вкладки уходят на вторую строку
+  // Шапка подстраивается под ширину: если тесно, кнопки становятся иконками, а вкладки прокручиваются
   function fitBar() {
-    bar.classList.remove('bar--compact', 'bar--stacked');
-    const over = () => tabs.scrollWidth > tabs.clientWidth + 1 || bar.scrollWidth > bar.clientWidth + 1;
-    if (over()) bar.classList.add('bar--compact');
-    if (over()) bar.classList.add('bar--stacked');
+    bar.classList.remove('bar--compact');
+    if (tabs.scrollWidth > tabs.clientWidth + 1 || bar.scrollWidth > bar.clientWidth + 1) bar.classList.add('bar--compact');
   }
 
   // На широком экране — живой HTML в масштабе, на телефоне — готовый PNG
