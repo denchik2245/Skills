@@ -19,9 +19,13 @@ if (tryRun('git', ['diff', '--cached', '--quiet']) === null) run('git', ['commit
 if (!tryRun('git', ['remote', 'get-url', 'origin'])) {
   run('gh', ['repo', 'create', cfg.repo, '--public', '--source', '.', '--remote', 'origin', '--push',
     '--description', 'Концепции первых экранов для заказчиков']);
-} else {
-  run('git', ['push', '-u', 'origin', 'main']);
 }
+// Пушим учёткой gh, а не той, что сохранена в связке ключей (там может быть другой аккаунт).
+// Настройка локальная — только для репозитория витрины.
+run('git', ['remote', 'set-url', 'origin', `https://github.com/${cfg.repo}.git`]);
+run('git', ['config', '--local', '--replace-all', 'credential.https://github.com.helper', '']);
+run('git', ['config', '--local', '--add', 'credential.https://github.com.helper', '!gh auth git-credential']);
+run('git', ['push', '-u', 'origin', 'main']);
 
 const pages = tryRun('gh', ['api', `repos/${cfg.repo}/pages`]);
 if (!pages) run('gh', ['api', '-X', 'POST', `repos/${cfg.repo}/pages`, '-f', 'source[branch]=main', '-f', 'source[path]=/']);
