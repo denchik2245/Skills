@@ -20,9 +20,9 @@ writeJson(path.join(dir, 'meta.json'), {
   slug,
   title,
   domain,
-  description: 'Варианты первого экрана для обсуждения',
+  description: 'Концепция первого экрана и мобильной версии',
   created: new Date().toISOString().slice(0, 10),
-  variants: [],
+  notes: [],
 });
 
 console.log(JSON.stringify({ slug, dir, url: `${cfg.baseUrl}/${slug}/` }, null, 2));

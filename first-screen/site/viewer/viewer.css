@@ -9,6 +9,7 @@
   --accent-text: #ffffff;
   --radius: 12px;
   --gutter: 32px;
+  --max: 1920px;
   color-scheme: dark;
 }
 
@@ -17,8 +18,6 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
   background: var(--bg);
   color: var(--text);
   font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -30,33 +29,13 @@ svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width:
 /* Шапка */
 .bar {
   position: sticky; top: 0; z-index: 10;
-  display: flex; align-items: center; gap: 24px;
+  display: flex; align-items: center;
   padding: 14px var(--gutter);
   background: rgba(14, 14, 16, .86);
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--line);
 }
-.tabs { flex: 0 1 auto; min-width: 0; display: flex; gap: 4px; padding: 4px; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; overflow-x: auto; scrollbar-width: none; }
-.tabs::-webkit-scrollbar { display: none; }
-.tab {
-  display: flex; align-items: center; gap: 8px; flex: none;
-  padding: 7px 16px 7px 8px; border: 0; border-radius: 999px; background: transparent; color: var(--muted);
-  cursor: pointer; white-space: nowrap; transition: background .15s, color .15s;
-}
-.tab:hover { color: var(--text); }
-.tab[aria-selected="true"] { background: var(--text); color: var(--bg); }
-.tab__key {
-  display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%;
-  background: var(--panel-2); color: var(--text); font-size: 12px; font-weight: 700; text-transform: uppercase;
-}
-.tab[aria-selected="true"] .tab__key { background: var(--accent); color: var(--accent-text); }
-.tabs--single { display: none; }
-
-.actions { flex: none; display: flex; justify-content: flex-end; gap: 8px; margin-left: auto; }
-
-/* Компактный режим ставит viewer.js, когда вкладки и кнопки не помещаются в строку */
-.bar--compact .actions .btn { width: 40px; padding: 0; }
-.bar--compact .actions .btn span { display: none; }
+.actions { flex: none; display: flex; gap: 8px; margin-left: auto; }
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   height: 40px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px;
@@ -67,40 +46,78 @@ svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width:
 .btn:active { transform: translateY(1px); }
 .btn--accent { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
 .btn--accent:hover { background: #ff6f47; border-color: #ff6f47; }
-.btn--lg { height: 48px; padding: 0 24px; font-size: 15px; }
-.btn:focus-visible, .tab:focus-visible, .pager__btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.btn:focus-visible, .note:focus-visible, .pin:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.btn[hidden] { display: none; }
 
-/* Сцена с макетом */
-.stage { flex: 1; width: 100%; max-width: calc(1920px + var(--gutter) * 2); margin: 0 auto; padding: 32px var(--gutter) 24px; }
-.frame, .caption { max-width: var(--fit-w, none); margin: 0 auto; }
+/* Компактный режим ставит viewer.js, когда кнопки не помещаются в строку */
+.bar--compact .actions .btn { width: 40px; padding: 0; }
+.bar--compact .actions .btn span { display: none; }
+
+/* Окно браузера */
 .frame {
-  overflow: hidden; border-radius: var(--radius); background: var(--panel);
+  margin: 0; overflow: hidden; border-radius: var(--radius); background: var(--panel);
   border: 1px solid var(--line); box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .7);
 }
 .frame__chrome { display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border-bottom: 1px solid var(--line); }
-.frame__chrome i { width: 11px; height: 11px; border-radius: 50%; background: #3a3a40; }
+.frame__chrome i { width: 11px; height: 11px; border-radius: 50%; background: #3a3a40; flex: none; }
 .frame__url {
-  flex: 0 1 420px; margin: 0 auto; padding: 4px 14px; border-radius: 8px; background: var(--bg);
+  flex: 0 1 420px; min-width: 0; margin: 0 auto; padding: 4px 14px; border-radius: 8px; background: var(--bg);
   color: var(--muted); font-size: 12px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.frame__size { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
-.frame__view { position: relative; overflow: hidden; background: #fff; transition: height .2s; }
+.frame__size { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.frame__view { position: relative; overflow: hidden; background: #fff; }
 .frame__view iframe { position: absolute; top: 0; left: 0; width: 1920px; border: 0; transform-origin: 0 0; background: #fff; }
-.frame__view img { display: block; width: 100%; height: auto; cursor: zoom-in; }
-.frame__view [hidden] { display: none; }
+.frame__view img, .shot img, .phone__screen img { display: block; width: 100%; height: auto; }
 
-.caption { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; padding: 20px 4px 0; }
-.caption__name { margin: 0; font-size: 16px; font-weight: 600; }
-.caption__about { margin: 4px 0 0; max-width: 720px; color: var(--muted); }
-.caption__about:empty { display: none; }
-.pager { display: flex; align-items: center; gap: 8px; flex: none; }
-.pager--single { display: none; }
-.pager__btn {
-  display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
-  border: 1px solid var(--line); background: var(--panel); cursor: pointer;
+/* Первый экран: десктоп и телефон рядом, оба целиком в окне */
+.stage { max-width: calc(var(--max) + var(--gutter) * 2); margin: 0 auto; padding: 32px var(--gutter) 24px; }
+.duo { display: flex; align-items: flex-start; justify-content: center; gap: 32px; }
+.phone-wrap { flex: none; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.phone-wrap[hidden] { display: none; }
+.phone {
+  margin: 0; padding: 10px; border-radius: 44px; background: var(--panel-2);
+  border: 1px solid var(--line); box-shadow: 0 30px 80px -24px rgba(0, 0, 0, .8);
 }
-.pager__btn:hover { background: var(--panel-2); }
-.pager__count { min-width: 48px; text-align: center; color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+.phone__screen { position: relative; overflow: hidden; border-radius: 34px; background: #fff; }
+.phone__screen iframe { position: absolute; top: 0; left: 0; width: 375px; height: 812px; border: 0; transform-origin: 0 0; background: #fff; }
+.phone-hint { margin: 0; color: var(--muted); font-size: 13px; }
+
+/* Почему экран устроен так */
+.why { max-width: calc(var(--max) + var(--gutter) * 2); margin: 0 auto; padding: 72px var(--gutter) 96px; }
+.why[hidden] { display: none; }
+.why__title { margin: 0 0 32px; font-size: 32px; line-height: 1.2; font-weight: 600; letter-spacing: -.01em; }
+.why__grid { display: grid; grid-template-columns: minmax(0, 1fr) 400px; gap: 40px; align-items: start; }
+.shot { position: relative; background: #fff; }
+
+.pin {
+  position: absolute; z-index: 2; display: grid; place-items: center;
+  width: 28px; height: 28px; padding: 0; border: 2px solid #fff; border-radius: 50%;
+  background: var(--accent); color: #fff; font-size: 13px; font-weight: 700; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .45); transition: scale .15s;
+}
+.pin--left { transform: translate(calc(-100% - 8px), -50%); }
+.pin--right { transform: translate(8px, -50%); }
+.pin--top { transform: translate(-50%, calc(-100% - 8px)); }
+.pin--bottom { transform: translate(-50%, 8px); }
+.pin:hover, .pin.is-on { scale: 1.15; }
+.hl {
+  position: absolute; z-index: 1; border: 2px solid var(--accent); border-radius: 8px;
+  box-shadow: 0 0 0 9999px rgba(14, 14, 16, .45); opacity: 0; pointer-events: none; transition: opacity .2s;
+}
+.hl.is-on { opacity: 1; }
+
+.notes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.note {
+  display: grid; grid-template-columns: 32px 1fr; gap: 16px; padding: 16px; border: 1px solid transparent; border-radius: var(--radius);
+  cursor: default; transition: background .15s, border-color .15s;
+}
+.note.is-on { background: var(--panel); border-color: var(--line); }
+.note__n {
+  display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%;
+  background: var(--accent); color: #fff; font-size: 14px; font-weight: 700;
+}
+.note__title { margin: 4px 0 6px; font-size: 16px; font-weight: 600; line-height: 1.35; }
+.note__text { margin: 0; color: var(--muted); }
 
 .toast {
   position: fixed; left: 50%; bottom: 32px; z-index: 20; transform: translate(-50%, 16px);
@@ -109,13 +126,28 @@ svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width:
 }
 .toast--on { opacity: 1; transform: translate(-50%, 0); }
 
-/* Телефон */
+/* Планшет: пояснения под макетом */
+@media (max-width: 1100px) {
+  .why__grid { grid-template-columns: 1fr; }
+}
+
+/* Телефон: картинки вместо живой вёрстки, всё в одну колонку */
 @media (max-width: 760px) {
   :root { --gutter: 16px; }
-  .bar { gap: 12px; }
   .stage { padding-top: 16px; }
+  .duo { flex-direction: column; align-items: stretch; gap: 24px; }
+  .phone-wrap { align-self: center; }
+  .phone__screen { overflow-y: auto; scrollbar-width: none; }
+  .phone__screen::-webkit-scrollbar { display: none; }
   .frame__chrome { height: 32px; padding: 0 12px; }
   .frame__chrome i { width: 8px; height: 8px; }
   .frame__size { display: none; }
-  .caption { flex-direction: column; gap: 12px; }
+  .why { padding-top: 48px; padding-bottom: 64px; }
+  .why__title { font-size: 24px; margin-bottom: 20px; }
+  .pin { width: 20px; height: 20px; font-size: 11px; border-width: 1.5px; }
+  .pin--left { transform: translate(calc(-100% - 4px), -50%); }
+  .pin--right { transform: translate(4px, -50%); }
+  .pin--top { transform: translate(-50%, calc(-100% - 4px)); }
+  .pin--bottom { transform: translate(-50%, 4px); }
+  .note { padding: 12px 0; }
 }

@@ -1,120 +1,34 @@
-// Просмотрщик вариантов первого экрана. Данные проекта лежат в <script id="data"> страницы проекта.
+// Просмотрщик концепции: первый экран (десктоп + телефон) и пояснения к решениям.
+// Данные проекта лежат в <script id="data"> страницы проекта.
 (() => {
   const data = JSON.parse(document.getElementById('data').textContent);
-  const variants = data.variants || [];
+  const desk = data.screens.desktop;
+  const mob = data.screens.mobile;
+  const notes = (data.notes || []).filter(n => n.box);
   const $ = id => document.getElementById(id);
   const MOBILE = window.matchMedia('(max-width: 760px)');
-  const W = 1920;
+  const DW = 1920, MW = 375, MH = 812, BEZEL = 10, CHROME = 40, GAP = 32;
 
-  const view = $('view');
-  const stage = document.querySelector('.stage');
   const bar = document.querySelector('.bar');
-  const chrome = document.querySelector('.frame__chrome');
-  const frames = {};
-  let current = null;
+  const stage = $('stage');
+  const deskFrame = $('deskFrame'), deskView = $('deskView');
+  const phoneWrap = $('phoneWrap'), phoneFrame = $('phoneFrame'), phoneView = $('phoneView');
 
-  $('url').textContent = data.domain || data.title || '';
+  for (const el of document.querySelectorAll('.frame__url')) el.textContent = data.domain || data.title || '';
+  $('deskSize').textContent = DW + ' × ' + desk.height;
 
-  // Вкладки
-  const tabs = $('tabs');
-  variants.forEach(v => {
-    const b = document.createElement('button');
-    b.className = 'tab'; b.type = 'button'; b.setAttribute('role', 'tab'); b.dataset.id = v.id;
-    b.innerHTML = '<span class="tab__key"></span><span class="tab__name"></span>';
-    b.querySelector('.tab__key').textContent = v.id;
-    b.querySelector('.tab__name').textContent = v.name || 'Вариант ' + v.id.toUpperCase();
-    b.addEventListener('click', () => show(v.id, true));
-    tabs.appendChild(b);
-  });
-  if (variants.length < 2) { tabs.classList.add('tabs--single'); $('pager').classList.add('pager--single'); }
-
-  function frameFor(v) {
-    if (frames[v.id]) return frames[v.id];
-    const f = { iframe: null, img: null };
-    f.img = document.createElement('img');
-    f.img.alt = (data.title || '') + ' — ' + (v.name || v.id);
-    f.img.decoding = 'async';
-    f.img.title = 'Открыть в полном размере';
-    f.img.addEventListener('click', () => window.open(v.png, '_blank', 'noopener'));
-    view.appendChild(f.img);
-    frames[v.id] = f;
-    return f;
+  // Скачивание и ссылка
+  const slug = data.slug || 'concept';
+  $('dlDesktop').href = desk.png;
+  $('dlDesktop').setAttribute('download', slug + '-desktop.png');
+  if (mob) {
+    $('dlMobile').href = mob.png;
+    $('dlMobile').setAttribute('download', slug + '-mobile.png');
+  } else {
+    $('dlMobile').hidden = true;
+    phoneWrap.hidden = true;
   }
 
-  // Шапка подстраивается под ширину: если тесно, кнопки становятся иконками, а вкладки прокручиваются
-  function fitBar() {
-    bar.classList.remove('bar--compact');
-    if (tabs.scrollWidth > tabs.clientWidth + 1 || bar.scrollWidth > bar.clientWidth + 1) bar.classList.add('bar--compact');
-  }
-
-  // На широком экране — живой HTML в масштабе, на телефоне — готовый PNG
-  function render() {
-    const v = variants.find(x => x.id === current);
-    if (!v) return;
-    fitBar();
-    const f = frameFor(v);
-    const h = v.height || 1080;
-    $('size').textContent = W + ' × ' + h;
-    for (const [id, g] of Object.entries(frames)) {
-      const on = id === current;
-      if (g.iframe) g.iframe.hidden = !on || MOBILE.matches;
-      g.img.hidden = !on || !MOBILE.matches;
-    }
-    if (MOBILE.matches) {
-      if (!f.img.src) f.img.src = v.png;
-      view.style.height = '';
-      stage.style.removeProperty('--fit-w');
-      return;
-    }
-    if (!f.iframe) {
-      f.iframe = document.createElement('iframe');
-      f.iframe.src = v.file;
-      f.iframe.title = f.img.alt;
-      f.iframe.scrolling = 'no';
-      f.iframe.setAttribute('tabindex', '-1');
-      view.appendChild(f.iframe);
-    }
-    // Экран 1920×1080 целиком помещается в окно: масштаб по ширине или по высоте, что меньше
-    const st = getComputedStyle(stage);
-    const availW = stage.clientWidth - parseFloat(st.paddingLeft) - parseFloat(st.paddingRight) - 2;
-    const availH = window.innerHeight - bar.offsetHeight - parseFloat(st.paddingTop) - chrome.offsetHeight - 104;
-    const fit = Math.max(0.3, Math.min(availW / W, availH / 1080));
-    stage.style.setProperty('--fit-w', Math.floor(W * fit) + 2 + 'px');
-    const s = view.clientWidth / W;
-    f.iframe.style.height = h + 'px';
-    f.iframe.style.transform = 'scale(' + s + ')';
-    view.style.height = Math.round(h * s) + 'px';
-  }
-
-  function show(id, push) {
-    const i = Math.max(0, variants.findIndex(v => v.id === id));
-    const v = variants[i];
-    if (!v) return;
-    current = v.id;
-    for (const b of tabs.children) b.setAttribute('aria-selected', String(b.dataset.id === v.id));
-    tabs.children[i] && tabs.children[i].scrollIntoView({ block: 'nearest', inline: 'nearest' });
-    $('vname').textContent = 'Вариант ' + v.id.toUpperCase() + (v.name ? ' · ' + v.name : '');
-    $('vabout').textContent = v.about || '';
-    $('count').textContent = (i + 1) + ' / ' + variants.length;
-    $('download').href = v.png;
-    $('download').setAttribute('download', (data.slug || 'concept') + '-' + v.id + '.png');
-    if (push && location.hash !== '#' + v.id) history.replaceState(null, '', '#' + v.id);
-    render();
-  }
-
-  function step(d) {
-    const i = variants.findIndex(v => v.id === current);
-    show(variants[(i + d + variants.length) % variants.length].id, true);
-  }
-  $('prev').addEventListener('click', () => step(-1));
-  $('next').addEventListener('click', () => step(1));
-  document.addEventListener('keydown', e => {
-    if (e.target.closest('input, textarea')) return;
-    if (e.key === 'ArrowLeft') step(-1);
-    if (e.key === 'ArrowRight') step(1);
-  });
-
-  // Ссылка копируется вместе с выбранным вариантом
   const toast = $('toast');
   let toastTimer;
   function say(msg) {
@@ -124,7 +38,7 @@
     toastTimer = setTimeout(() => toast.classList.remove('toast--on'), 2200);
   }
   $('copy').addEventListener('click', async () => {
-    const url = location.href.split('#')[0] + '#' + current;
+    const url = location.href.split('#')[0];
     try { await navigator.clipboard.writeText(url); }
     catch {
       const t = document.createElement('textarea');
@@ -132,11 +46,154 @@
       try { document.execCommand('copy'); } catch {}
       t.remove();
     }
-    say('Ссылка на вариант ' + current.toUpperCase() + ' скопирована');
+    say('Ссылка скопирована');
   });
+
+  // Если кнопки не помещаются в строку, они становятся иконками
+  function fitBar() {
+    bar.classList.remove('bar--compact');
+    if (bar.scrollWidth > bar.clientWidth + 1) bar.classList.add('bar--compact');
+  }
+
+  // Живая вёрстка в iframe создаётся один раз; на телефоне вместо неё — готовые PNG
+  let deskIframe, phoneIframe, deskImg, phoneImg;
+  function iframe(src, cls) {
+    const f = document.createElement('iframe');
+    f.src = src; f.title = data.title || ''; f.setAttribute('tabindex', '-1');
+    if (cls) f.className = cls;
+    return f;
+  }
+  function img(src) {
+    const i = document.createElement('img');
+    i.src = src; i.alt = data.title || ''; i.decoding = 'async';
+    return i;
+  }
+
+  function layoutWide() {
+    if (!deskIframe) {
+      deskIframe = iframe(desk.file);
+      deskIframe.scrolling = 'no';
+      deskView.appendChild(deskIframe);
+      if (mob) {
+        phoneIframe = iframe(mob.file);
+        // Прячем полосу прокрутки внутри телефона — как на настоящем экране
+        phoneIframe.addEventListener('load', () => {
+          try {
+            const s = phoneIframe.contentDocument.createElement('style');
+            s.textContent = 'html{scrollbar-width:none}html::-webkit-scrollbar{display:none}';
+            phoneIframe.contentDocument.head.appendChild(s);
+          } catch {}
+        });
+        phoneView.appendChild(phoneIframe);
+      }
+    }
+    for (const el of [deskImg, phoneImg]) if (el) el.hidden = true;
+    deskIframe.hidden = false;
+    if (phoneIframe) phoneIframe.hidden = false;
+
+    // Высота экрана десктопа Hs такая, чтобы окно и телефон стояли рядом одной высоты и целиком помещались
+    const st = getComputedStyle(stage);
+    const availW = stage.clientWidth - parseFloat(st.paddingLeft) - parseFloat(st.paddingRight) - 4;
+    const hint = mob ? 32 : 0;
+    const availH = window.innerHeight - bar.offsetHeight - parseFloat(st.paddingTop) - parseFloat(st.paddingBottom) - CHROME - hint - 4;
+    const dH = desk.height;
+    let Hs = mob
+      ? (availW - GAP - 2 * BEZEL - MW * (CHROME - 2 * BEZEL) / MH) / (DW / dH + MW / MH)
+      : availW * dH / DW;
+    Hs = Math.max(200, Math.min(Hs, availH));
+
+    const s = Hs / dH;
+    deskFrame.style.width = Math.floor(DW * s) + 2 + 'px';
+    deskView.style.height = Math.round(Hs) + 'px';
+    deskIframe.style.height = dH + 'px';
+    deskIframe.style.transform = 'scale(' + (deskView.clientWidth / DW) + ')';
+
+    if (mob) {
+      const sp = (Hs + CHROME - 2 * BEZEL) / MH;
+      phoneView.style.width = Math.round(MW * sp) + 'px';
+      phoneView.style.height = Math.round(MH * sp) + 'px';
+      phoneIframe.style.transform = 'scale(' + (phoneView.clientWidth / MW) + ')';
+    }
+  }
+
+  function layoutNarrow() {
+    if (!deskImg) {
+      deskImg = img(desk.png);
+      deskView.appendChild(deskImg);
+      if (mob) { phoneImg = img(mob.png); phoneView.appendChild(phoneImg); }
+    }
+    for (const el of [deskIframe, phoneIframe]) if (el) el.hidden = true;
+    deskImg.hidden = false;
+    if (phoneImg) phoneImg.hidden = false;
+    deskFrame.style.width = '';
+    deskView.style.height = '';
+    if (mob) {
+      const w = Math.min(320, stage.clientWidth - 64);
+      phoneView.style.width = w + 'px';
+      phoneView.style.height = Math.round(w * MH / MW) + 'px';
+    }
+  }
+
+  function render() {
+    fitBar();
+    if (MOBILE.matches) layoutNarrow(); else layoutWide();
+  }
+
+  // Пояснения: метки на картинке десктопа и список; наведение подсвечивает пару
+  const why = $('why');
+  if (!notes.length) why.hidden = true;
+  else {
+    const shot = $('shot');
+    $('shotImg').src = desk.png;
+    const list = $('notes');
+    const pct = (v, total) => (v / total * 100) + '%';
+    const items = notes.map((n, i) => {
+      const num = i + 1;
+      const pin = document.createElement('button');
+      pin.type = 'button'; pin.className = 'pin'; pin.textContent = num;
+      pin.setAttribute('aria-label', 'Пояснение ' + num + ': ' + n.title);
+      // Метка стоит рядом с элементом, а не на нём: слева по умолчанию, side в meta.json меняет сторону
+      const side = ['right', 'top', 'bottom'].includes(n.side) ? n.side : 'left';
+      const ax = { left: n.box.x, right: n.box.x + n.box.w, top: n.box.x + n.box.w / 2, bottom: n.box.x + n.box.w / 2 }[side];
+      const ay = { left: n.box.y + n.box.h / 2, right: n.box.y + n.box.h / 2, top: n.box.y, bottom: n.box.y + n.box.h }[side];
+      pin.classList.add('pin--' + side);
+      pin.style.left = pct(ax, DW);
+      pin.style.top = pct(ay, desk.height);
+      const hl = document.createElement('div');
+      hl.className = 'hl';
+      hl.style.left = pct(n.box.x, DW);
+      hl.style.top = pct(n.box.y, desk.height);
+      hl.style.width = pct(n.box.w, DW);
+      hl.style.height = pct(n.box.h, desk.height);
+      shot.append(hl, pin);
+
+      const li = document.createElement('li');
+      li.className = 'note'; li.tabIndex = 0;
+      li.innerHTML = '<span class="note__n"></span><div><p class="note__title"></p><p class="note__text"></p></div>';
+      li.querySelector('.note__n').textContent = num;
+      li.querySelector('.note__title').textContent = n.title;
+      li.querySelector('.note__text').textContent = n.text;
+      list.appendChild(li);
+      return { pin, hl, li };
+    });
+    const set = (on) => items.forEach((it, i) => {
+      for (const el of [it.pin, it.hl, it.li]) el.classList.toggle('is-on', i === on);
+    });
+    items.forEach((it, i) => {
+      for (const el of [it.pin, it.li]) {
+        el.addEventListener('mouseenter', () => set(i));
+        el.addEventListener('focus', () => set(i));
+        el.addEventListener('mouseleave', () => set(-1));
+        el.addEventListener('blur', () => set(-1));
+      }
+      it.pin.addEventListener('click', () => {
+        set(i);
+        it.li.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      });
+    });
+  }
 
   window.addEventListener('resize', render);
   MOBILE.addEventListener('change', render);
-  window.addEventListener('hashchange', () => show(location.hash.slice(1)));
-  show(location.hash.slice(1) || (variants[0] && variants[0].id));
+  render();
 })();

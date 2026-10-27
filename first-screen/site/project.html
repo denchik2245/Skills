@@ -19,11 +19,14 @@
 </head>
 <body>
 <header class="bar">
-  <nav class="tabs" id="tabs" role="tablist" aria-label="Варианты"></nav>
   <div class="actions">
-    <a class="btn" id="download" href="#" download title="Скачать PNG" aria-label="Скачать PNG">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg>
-      <span>Скачать PNG</span>
+    <a class="btn" id="dlDesktop" href="#" download title="Скачать десктоп PNG" aria-label="Скачать десктоп PNG">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
+      <span>Десктоп PNG</span>
+    </a>
+    <a class="btn" id="dlMobile" href="#" download title="Скачать мобильную версию PNG" aria-label="Скачать мобильную версию PNG">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>
+      <span>Мобильная PNG</span>
     </a>
     <button class="btn btn--accent" id="copy" type="button" title="Скопировать ссылку" aria-label="Скопировать ссылку">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1m2 4a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1"/></svg>
@@ -32,31 +35,39 @@
   </div>
 </header>
 
-<main class="stage">
-  <figure class="frame" id="frame">
-    <div class="frame__chrome" aria-hidden="true">
-      <i></i><i></i><i></i>
-      <span class="frame__url" id="url"></span>
-      <span class="frame__size" id="size"></span>
+<main>
+  <section class="stage" id="stage">
+    <div class="duo">
+      <figure class="frame" id="deskFrame">
+        <div class="frame__chrome" aria-hidden="true">
+          <i></i><i></i><i></i>
+          <span class="frame__url"></span>
+          <span class="frame__size" id="deskSize"></span>
+        </div>
+        <div class="frame__view" id="deskView"></div>
+      </figure>
+      <div class="phone-wrap" id="phoneWrap">
+        <figure class="phone" id="phoneFrame">
+          <div class="phone__screen" id="phoneView"></div>
+        </figure>
+        <p class="phone-hint">Мобильная версия листается</p>
+      </div>
     </div>
-    <div class="frame__view" id="view"></div>
-  </figure>
+  </section>
 
-  <div class="caption">
-    <div class="caption__text">
-      <p class="caption__name" id="vname"></p>
-      <p class="caption__about" id="vabout"></p>
+  <section class="why" id="why">
+    <h2 class="why__title">Почему экран устроен так</h2>
+    <div class="why__grid">
+      <figure class="frame">
+        <div class="frame__chrome" aria-hidden="true">
+          <i></i><i></i><i></i>
+          <span class="frame__url"></span>
+        </div>
+        <div class="shot" id="shot"><img id="shotImg" alt=""></div>
+      </figure>
+      <ol class="notes" id="notes"></ol>
     </div>
-    <div class="pager" id="pager">
-      <button class="pager__btn" id="prev" type="button" aria-label="Предыдущий вариант">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg>
-      </button>
-      <span class="pager__count" id="count"></span>
-      <button class="pager__btn" id="next" type="button" aria-label="Следующий вариант">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
-      </button>
-    </div>
-  </div>
+  </section>
 </main>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>

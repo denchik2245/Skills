@@ -7,7 +7,7 @@ const slug = process.argv[2];
 const cfg = loadConfig();
 const dir = projectDir(cfg, slug);
 const meta = readJson(path.join(dir, 'meta.json'));
-if (!meta.variants?.length || !meta.variants.every(v => v.height)) die('Сначала собери проект: node build.mjs ' + slug);
+if (!meta.screens?.desktop?.height) die('Сначала собери проект: node build.mjs ' + slug);
 
 const run = (cmd, args) => execFileSync(cmd, args, { cwd: cfg.siteDir, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
 const tryRun = (...a) => { try { return run(...a); } catch { return null; } };
@@ -44,7 +44,7 @@ console.log(JSON.stringify({
   url,
   live: ok,
   pagesBuild: status,
-  links: meta.variants.map(v => ({ id: v.id, name: v.name, url: url + '#' + v.id })),
-  attach: meta.variants.map(v => path.join(dir, v.jpg)),
+  // Для отклика: обложка (десктоп + телефон), затем каждый экран отдельно
+  attach: ['cover.jpg', ...Object.values(meta.screens).map(s => s.jpg)].map(f => path.join(dir, f)),
 }, null, 2));
 if (!ok) console.error('⚠ Ссылка пока не отвечает — Pages иногда обновляется дольше. Проверь через минуту.');
