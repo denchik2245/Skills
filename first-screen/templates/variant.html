@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Бренд — первый экран</title>
+<!-- Шрифт с цветового референса, с кириллицей; все используемые начертания в wght@ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap&subset=cyrillic" rel="stylesheet">
+<style>
+  :root {
+    /* Палитра с цветового референса */
+    --accent: #1f6feb;
+    --accent-hover: #1a5fd0;
+    --bg: #f6f5f2;
+    --surface: #ffffff;
+    --dark: #121417;
+    --text: #121417;
+    --text-2: #5b616b;
+    --on-dark: #ffffff;
+    --on-dark-2: rgba(255, 255, 255, .72);
+    --border: #e3e1dc;
+    --font: "Golos Text", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { width: 1920px; margin: 0; overflow-x: hidden; }
+  body { background: var(--bg); color: var(--text); font: 400 16px/24px var(--font); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  h1, h2, h3, p { margin: 0; }
+
+  /* Контент 1200 по центру: x 360–1560, 12 колонок 78 + 24 */
+  .container { position: relative; width: 1200px; margin: 0 auto; }
+
+  .header { height: 96px; }
+  .header .container { display: flex; align-items: center; height: 100%; gap: 48px; }
+  .logo { font-size: 24px; line-height: 32px; font-weight: 700; }
+  .menu { display: flex; gap: 32px; font-size: 16px; line-height: 24px; }
+  .header__right { display: flex; align-items: center; gap: 24px; margin-left: auto; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 12px; font: 500 16px/24px var(--font); white-space: nowrap; }
+  .btn--m { height: 48px; padding: 0 24px; }
+  .btn--l { height: 64px; padding: 0 32px; font-size: 18px; }
+  .btn--primary { background: var(--accent); color: #fff; }
+
+  /* Первый экран: 1080 вместе с шапкой */
+  .hero { min-height: 984px; }
+  h1 { font-size: 64px; line-height: 72px; font-weight: 700; letter-spacing: -.01em; }
+  .lead { font-size: 20px; line-height: 32px; color: var(--text-2); }
+</style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <a class="logo" href="#">Бренд</a>
+      <nav class="menu">
+        <a href="#">Услуги</a><a href="#">Цены</a><a href="#">Работы</a><a href="#">Контакты</a>
+      </nav>
+      <div class="header__right">
+        <a href="#">+7 900 000-00-00</a>
+        <a class="btn btn--m btn--primary" href="#">Действие</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>Оффер: что, для кого и какая польза</h1>
+      <p class="lead">Лид в 1–2 строки: конкретика из ТЗ.</p>
+      <a class="btn btn--l btn--primary" href="#">Глагол + выгода</a>
+    </div>
+  </section>
+</body>
+</html>
