@@ -1,4 +1,0 @@
-interface:
-  display_name: "6. Guide"
-  short_description: "Создание гайдов для UX-интервью"
-  default_prompt: "Используй $6-guide, чтобы подготовить структурированный гайд для UX-интервью."

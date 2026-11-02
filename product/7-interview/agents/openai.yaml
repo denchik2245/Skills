@@ -1,4 +1,0 @@
-interface:
-  display_name: "7. Interview"
-  short_description: "Анализ интервью и юзабилити-тестов"
-  default_prompt: "Используй $7-interview, чтобы свести и проанализировать результаты интервью."

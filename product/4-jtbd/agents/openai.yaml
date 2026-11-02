@@ -1,0 +1,4 @@
+interface:
+  display_name: "4. JTBD"
+  short_description: "Артефакты Jobs To Be Done из данных исследования"
+  default_prompt: "Используй $4-jtbd, чтобы построить артефакты Jobs To Be Done из данных исследования."

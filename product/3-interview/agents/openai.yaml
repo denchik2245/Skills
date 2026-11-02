@@ -1,0 +1,4 @@
+interface:
+  display_name: "3. Interview"
+  short_description: "Анализ интервью и юзабилити-тестов"
+  default_prompt: "Используй $3-interview, чтобы свести и проанализировать результаты интервью."

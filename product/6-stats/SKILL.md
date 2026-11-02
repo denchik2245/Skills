@@ -1,5 +1,5 @@
 ---
-name: 10-stats
+name: 6-stats
 description: Analyze and visualize quantitative UX/product research data from surveys, spreadsheets, CSV/XLSX exports, or prepared analysis artifacts. Use when Codex needs to calculate or explain survey results, validate hypotheses, compare segments, handle single choice / multiple choice / scale questions, produce methodology notes, executive summaries, research reports, product implications, or reusable analysis plans for quantitative studies.
 ---
 
