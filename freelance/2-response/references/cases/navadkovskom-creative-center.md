@@ -2,6 +2,7 @@
 
 - ID: `navadkovskom-creative-center`
 - Kwork: https://kwork.ru/portfolio/22777147
+- Kwork проверен: 2026-11-03
 - FL.ru: https://www.fl.ru/user/flarich2281337/portfolio/8050877/
 - Сайт: `navadkovscom.ru` (адрес из кейса без протокола)
 - Сайт проверен: не открылся 2026-10-25, в отклик не включать до повторной проверки

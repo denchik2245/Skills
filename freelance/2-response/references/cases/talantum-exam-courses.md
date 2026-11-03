@@ -1,7 +1,8 @@
 # Курсы ЕГЭ и ОГЭ «Центр Талантум»
 
 - ID: `talantum-exam-courses`
-- Kwork: https://kwork.ru/portfolio/23689492
+- Kwork: https://kwork.ru/portfolio/24314817
+- Kwork проверен: 2026-11-03
 - FL.ru: https://www.fl.ru/user/flarich2281337/portfolio/8075110/
 - Сайт: https://talantum.ru/
 - Сайт проверен: 2026-10-25

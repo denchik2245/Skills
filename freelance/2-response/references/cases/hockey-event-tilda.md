@@ -1,7 +1,8 @@
 # Лендинг хоккейного мероприятия
 
 - ID: `hockey-event-tilda`
-- Kwork: https://kwork.ru/portfolio/22543152
+- Kwork: https://kwork.ru/portfolio/24314685
+- Kwork проверен: 2026-11-03
 - FL.ru: https://www.fl.ru/user/flarich2281337/portfolio/8045752/
 - Сайт: не указан
 - Сайт проверен: -

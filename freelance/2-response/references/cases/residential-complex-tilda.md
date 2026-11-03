@@ -1,7 +1,8 @@
 # Лендинг жилого комплекса Flabellum
 
 - ID: `residential-complex-tilda`
-- Kwork: https://kwork.ru/portfolio/22543136
+- Kwork: https://kwork.ru/portfolio/24314764
+- Kwork проверен: 2026-11-03
 - FL.ru: https://www.fl.ru/user/flarich2281337/portfolio/8045701/
 - Сайт: не указан
 - Сайт проверен: -

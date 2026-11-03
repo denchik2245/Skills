@@ -2,6 +2,7 @@
 
 - ID: `development-studio-redesign`
 - Kwork: https://kwork.ru/portfolio/22521201
+- Kwork проверен: 2026-11-03
 - FL.ru: https://www.fl.ru/user/flarich2281337/portfolio/8045668/
 - Сайт: https://normdev.ru/
 - Сайт проверен: 2026-10-25

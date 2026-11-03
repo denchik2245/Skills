@@ -1,7 +1,8 @@
 # Курсы первой помощи
 
 - ID: `first-aid-courses-tilda`
-- Kwork: https://kwork.ru/portfolio/22543132
+- Kwork: https://kwork.ru/portfolio/24314661
+- Kwork проверен: 2026-11-03
 - FL.ru: https://www.fl.ru/user/flarich2281337/portfolio/8045755/
 - Сайт: не указан
 - Сайт проверен: -

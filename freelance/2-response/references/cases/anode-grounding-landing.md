@@ -1,7 +1,8 @@
 # Лендинг анодных заземлителей «Альгеба»
 
 - ID: `anode-grounding-landing`
-- Kwork: https://kwork.ru/portfolio/24001036
+- Kwork: https://kwork.ru/portfolio/24314698
+- Kwork проверен: 2026-11-03
 - FL.ru: https://www.fl.ru/user/flarich2281337/portfolio/8086714/
 - Сайт: https://anodfero.ru/
 - Сайт проверен: 2026-10-25

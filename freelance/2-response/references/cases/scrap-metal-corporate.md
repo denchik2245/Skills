@@ -1,7 +1,8 @@
 # Корпоративный сайт «ВН Металл Групп»
 
 - ID: `scrap-metal-corporate`
-- Kwork: https://kwork.ru/portfolio/22521243
+- Kwork: https://kwork.ru/portfolio/24314806
+- Kwork проверен: 2026-11-03
 - FL.ru: https://www.fl.ru/user/flarich2281337/portfolio/7995836/
 - Сайт: https://vn-metallgrupp.ru/
 - Сайт проверен: 2026-10-25

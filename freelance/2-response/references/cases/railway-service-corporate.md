@@ -2,6 +2,7 @@
 
 - ID: `railway-service-corporate`
 - Kwork: https://kwork.ru/portfolio/22777121
+- Kwork проверен: 2026-11-03
 - FL.ru: https://www.fl.ru/user/flarich2281337/portfolio/8050876/
 - Сайт: https://alts-ural.ru/
 - Сайт проверен: 2026-10-25
