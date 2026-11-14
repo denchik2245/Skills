@@ -156,7 +156,7 @@ function coverHtml(withPhone) {
   .phone { position: absolute; left: 1440px; top: 150px; width: 384px; padding: 12px; border-radius: 52px; background: #1f1f23;
     border: 1px solid #2a2a2f; box-shadow: 0 40px 100px -20px rgba(0, 0, 0, .9); }
   .phone .shot { height: 780px; border-radius: 40px; overflow: hidden; background: #fff; }
-  .phone img { display: block; width: 360px; }
+  .phone img { display: block; width: 100%; }
 </style></head><body>
   <div class="desk"><div class="chrome"><i></i><i></i><i></i></div><div class="shot"><img src="desktop.png"></div></div>
   ${withPhone ? '<div class="phone"><div class="shot"><img src="mobile.png"></div></div>' : ''}
