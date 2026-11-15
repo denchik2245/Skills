@@ -1,0 +1,4 @@
+interface:
+  display_name: "5. Tilda"
+  short_description: "Перенос макета из Figma в Tilda: Zero Block с адаптивом и проверкой"
+  default_prompt: "Используй $5-tilda, чтобы перенести этот макет из Figma в Tilda: выгрузи секции скриптом, собери Zero Block по десктопу и мобильному фрейму, загрузи исходные картинки и проверь страницу на всех брейкпоинтах."
