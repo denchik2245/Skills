@@ -1,5 +1,6 @@
 // Вставляй в начало каждого use_figma-скрипта. Состояние между вызовами не сохраняется.
-// Задай PAGE_ID и PREFIX (префикс стилей проекта, например 'V3/').
+// Задай PAGE_ID и PREFIX (префикс текстовых стилей проекта, например 'V3/').
+// Цвета — COLOR-переменные по имени ('Brand/Primary', 'Text/Primary'); старые цветовые стили с PREFIX — запасной вариант.
 const PAGE_ID = '__PAGE_ID__';
 const PREFIX = '__PREFIX__';
 const page = await figma.getNodeByIdAsync(PAGE_ID); await figma.setCurrentPageAsync(page);
@@ -11,7 +12,12 @@ const fontKeys = new Set();
 for (const s of Object.values(TS)) { const k = s.fontName.family + '|' + s.fontName.style; if (!fontKeys.has(k)) { fontKeys.add(k); await figma.loadFontAsync(s.fontName); } }
 const CC = { horizontal: 'CENTER', vertical: 'MIN' };
 
-async function fillS(n, k) { await n.setFillStyleIdAsync(PS[k].id); }
+const VARS = {};
+for (const v of await figma.variables.getLocalVariablesAsync('COLOR')) VARS[v.name] = v;
+const bound = v => figma.variables.setBoundVariableForPaint({ type: 'SOLID', color: { r: 0, g: 0, b: 0 } }, 'color', v);
+function colorMissing(k) { return new Error('Нет цветовой переменной или стиля: ' + k); }
+async function fillS(n, k) { if (VARS[k]) n.fills = [bound(VARS[k])]; else if (PS[k]) await n.setFillStyleIdAsync(PS[k].id); else throw colorMissing(k); }
+async function strokeS(n, k) { if (VARS[k]) n.strokes = [bound(VARS[k])]; else if (PS[k]) await n.setStrokeStyleIdAsync(PS[k].id); else throw colorMissing(k); }
 
 // Неразрывные пробелы: короткие предлоги, союзы и частицы переносятся вместе со следующим словом,
 // тире не уходит в начало строки, число не отрывается от единицы. Переводы строк не трогает.
@@ -26,14 +32,14 @@ function nb(s) {
   return s;
 }
 
-// Прямоугольник / эллипс. o: {ellipse, radius, fill(стиль) | img(hash) | paints, stroke(стиль), sw, opacity, c, name}
+// Прямоугольник / эллипс. o: {ellipse, radius, fill(переменная) | img(hash) | paints, stroke(переменная), sw, opacity, c, name}
 async function R(p, x, y, w, h, o = {}) {
   const r = o.ellipse ? figma.createEllipse() : figma.createRectangle(); p.appendChild(r);
   r.x = x; r.y = y; r.resize(w, h); r.name = o.name || 'Shape';
   if (o.radius != null && !o.ellipse) r.cornerRadius = o.radius;
   r.fills = [];
   if (o.fill) await fillS(r, o.fill); else if (o.img) r.fills = [{ type: 'IMAGE', imageHash: o.img, scaleMode: 'FILL' }]; else if (o.paints) r.fills = o.paints;
-  if (o.stroke) { await r.setStrokeStyleIdAsync(PS[o.stroke].id); r.strokeWeight = o.sw || 1; r.strokeAlign = 'INSIDE'; }
+  if (o.stroke) { await strokeS(r, o.stroke); r.strokeWeight = o.sw || 1; r.strokeAlign = 'INSIDE'; }
   if (o.opacity != null) r.opacity = o.opacity;
   if (o.c) r.constraints = o.c;
   return r;
@@ -48,7 +54,7 @@ async function F(p, x, y, w, h, o = {}) {
   if (o.paints) f.fills = o.paints;
   if (o.radius != null) f.cornerRadius = o.radius;
   f.clipsContent = o.clip !== false;
-  if (o.stroke) { await f.setStrokeStyleIdAsync(PS[o.stroke].id); f.strokeWeight = o.sw || 1; f.strokeAlign = 'INSIDE'; }
+  if (o.stroke) { await strokeS(f, o.stroke); f.strokeWeight = o.sw || 1; f.strokeAlign = 'INSIDE'; }
   if (o.c) f.constraints = o.c;
   return f;
 }
@@ -67,7 +73,7 @@ async function T(p, x, y, w, str, style, color, o = {}) {
 
 // Иконки — компоненты с именем icon/<name> на странице
 const ICONS = {}; for (const c of page.findAllWithCriteria({ types: ['COMPONENT'] })) if (c.name.startsWith('icon/')) ICONS[c.name.slice(5)] = c;
-async function recolor(node, color) { for (const v of node.findAll(n => 'strokes' in n && n.type !== 'INSTANCE')) { if (v.strokes.length) await v.setStrokeStyleIdAsync(PS[color].id); if (v.fills.length) await v.setFillStyleIdAsync(PS[color].id); } }
+async function recolor(node, color) { for (const v of node.findAll(n => 'strokes' in n && n.type !== 'INSTANCE')) { if (v.strokes.length) await strokeS(v, color); if (v.fills.length) await fillS(v, color); } }
 async function I(p, name, x, y, color, o = {}) { const i = ICONS[name].createInstance(); p.appendChild(i); i.x = x; i.y = y; if (color) await recolor(i, color); if (o.c) i.constraints = o.c; i.name = o.name || 'Icon'; return i; }
 async function swapIcon(inst, name, color) { const ic = inst.findOne(n => n.type === 'INSTANCE' && n.name === 'Icon'); ic.swapComponent(ICONS[name]); await recolor(ic, color); }
 
